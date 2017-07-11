@@ -8,6 +8,7 @@
    <groupId>io.openshift</groupId>
    <artifactId>booster-catalog-service</artifactId>
    <version>3-SNAPSHOT</version>
+   <packaging>war</packaging>
    <licenses>
       <license>
          <name>Apache License, Version 2.0</name>
@@ -18,6 +19,18 @@
    </licenses>
    <build>
       <plugins>
+         <plugin>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>wildfly-swarm-plugin</artifactId>
+            <version>${version.wildfly.swarm}</version>
+            <executions>
+               <execution>
+                  <goals>
+                  <goal>package</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
          <plugin>
             <artifactId>maven-release-plugin</artifactId>
             <configuration>
@@ -38,12 +51,33 @@
          </plugin>
       </plugins>
    </build>
+   <dependencyManagement>
+      <dependencies>
+         <dependency>
+            <groupId>org.wildfly.swarm</groupId>
+            <artifactId>bom</artifactId>
+            <version>${version.wildfly.swarm}</version>
+            <type>pom</type>
+            <scope>import</scope>
+         </dependency>
+      </dependencies>
+   </dependencyManagement>
    <properties>
       <snakeyaml.version>1.18</snakeyaml.version>
       <json.version>1.0.4</json.version>
       <jgit.version>4.7.1.201706071930-r</jgit.version>
+      <version.wildfly.swarm>2017.7.0</version.wildfly.swarm>
    </properties>
    <dependencies>
+      <!-- server dependency -->
+      <dependency>
+         <groupId>org.wildfly.swarm</groupId>
+         <artifactId>jaxrs</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.wildfly.swarm</groupId>
+         <artifactId>cdi</artifactId>
+      </dependency>
       <!-- Compile-time dependency -->
       <dependency>
          <groupId>org.yaml</groupId>
